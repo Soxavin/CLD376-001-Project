@@ -65,3 +65,7 @@ No Atlas yet? A throwaway local Mongo works the same way: `docker run -d --name 
 ## Git workflow
 
 Edit only your own service folders. Work on a branch, open a pull request into `main` once it runs. Secrets (`MONGO_URI`, `JWT_SECRET`) live only in gitignored `.env` files and the group chat.
+
+## AI usage
+
+This project was built with AI assistance, which the course permits. We used Claude (Anthropic) to help plan the architecture and draft the PRD, and Claude Code to generate and debug service code from that spec. The team made the design decisions, reviewed every change, and tested all endpoints in Postman. Each member can explain their own services without notes.
