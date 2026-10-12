@@ -1,1 +1,7 @@
 PRD-Car-Repair-Shop-Management-System.md
+
+node_modules/
+.env
+deploy/*/env/
+.DS_Store
+.claude/
