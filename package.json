@@ -1,0 +1,13 @@
+{
+  "name": "car-repair-scripts",
+  "private": true,
+  "description": "Root package only for the seed scripts in scripts/",
+  "scripts": {
+    "seed:users": "node --env-file=scripts/.env scripts/seed-users.js",
+    "seed:catalog": "node --env-file=scripts/.env scripts/seed-catalog.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "mongoose": "^8.9.0"
+  }
+}
