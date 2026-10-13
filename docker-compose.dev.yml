@@ -1,0 +1,124 @@
+# docker-compose.dev.yml
+# Runs the whole system on ONE machine (your laptop). Integration testing happens here, not on EC2.
+#
+#   1. Copy .env.example to .env in this folder and fill it in.
+#   2. docker compose -f docker-compose.dev.yml up --build
+#   3. Postman talks to the gateway: http://localhost:3000
+#
+# Only some services exist yet? Start just those, e.g.:
+#   docker compose -f docker-compose.dev.yml up --build api-gateway login service-catalog-a service-catalog-b billing
+#
+# Inside Docker, containers reach each other by service name (http://login:3002), so no IP
+# addresses are needed here. On EC2 they are replaced by private IPs (see deploy/).
+#
+# Ports: every service is also published on the host so you can test one alone with the
+# x-user-id / x-user-role headers. Catalog replica B listens on 3008 inside its container,
+# but is published on 3009 here because one laptop can't use host port 3008 twice.
+
+services:
+  api-gateway:
+    build: ./services/api-gateway
+    environment:
+      PORT: "3000"
+      INSTANCE_NAME: api-gateway
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET in .env}
+      REGISTRATION_URL: http://registration:3001
+      LOGIN_URL: http://login:3002
+      BOOKING_URL: http://booking:3003
+      VEHICLES_URL: http://vehicles:3004
+      WORK_ORDERS_URL: http://work-orders:3005
+      NOTES_URL: http://repair-notes:3006
+      BILLING_URL: http://billing:3007
+      # The two Service Catalog replicas the gateway round-robins between:
+      CATALOG_URLS: http://service-catalog-a:3008,http://service-catalog-b:3008
+    ports: ["3000:3000"]
+    restart: unless-stopped
+
+  registration:
+    build: ./services/registration
+    environment:
+      PORT: "3001"
+      INSTANCE_NAME: registration
+      MONGO_URI: "mongodb+srv://${ATLAS_USER:?Set ATLAS_USER in .env}:${ATLAS_PASSWORD:?Set ATLAS_PASSWORD in .env}@${ATLAS_HOST:?Set ATLAS_HOST in .env}/auth_db?retryWrites=true&w=majority"
+    ports: ["3001:3001"]
+    restart: unless-stopped
+
+  login:
+    build: ./services/login
+    environment:
+      PORT: "3002"
+      INSTANCE_NAME: login
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/auth_db?retryWrites=true&w=majority"
+      JWT_SECRET: ${JWT_SECRET}
+    ports: ["3002:3002"]
+    restart: unless-stopped
+
+  booking:
+    build: ./services/booking
+    environment:
+      PORT: "3003"
+      INSTANCE_NAME: booking
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/bookings_db?retryWrites=true&w=majority"
+      GATEWAY_INTERNAL_URL: http://api-gateway:3000
+    ports: ["3003:3003"]
+    restart: unless-stopped
+
+  vehicles:
+    build: ./services/vehicles
+    environment:
+      PORT: "3004"
+      INSTANCE_NAME: vehicles
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/vehicles_db?retryWrites=true&w=majority"
+    ports: ["3004:3004"]
+    restart: unless-stopped
+
+  work-orders:
+    build: ./services/work-orders
+    environment:
+      PORT: "3005"
+      INSTANCE_NAME: work-orders
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/workorders_db?retryWrites=true&w=majority"
+      GATEWAY_INTERNAL_URL: http://api-gateway:3000
+    ports: ["3005:3005"]
+    restart: unless-stopped
+
+  repair-notes:
+    build: ./services/repair-notes
+    environment:
+      PORT: "3006"
+      INSTANCE_NAME: repair-notes
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/notes_db?retryWrites=true&w=majority"
+    ports: ["3006:3006"]
+    restart: unless-stopped
+
+  billing:
+    build: ./services/billing
+    environment:
+      PORT: "3007"
+      INSTANCE_NAME: billing
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/billing_db?retryWrites=true&w=majority"
+      GATEWAY_INTERNAL_URL: http://api-gateway:3000
+      # TEMPORARY: set WORK_ORDERS_STUB=true in .env while Work Orders doesn't exist yet.
+      WORK_ORDERS_STUB: ${WORK_ORDERS_STUB:-false}
+      WORK_ORDERS_STUB_STATUS: ${WORK_ORDERS_STUB_STATUS:-completed}
+    ports: ["3007:3007"]
+    restart: unless-stopped
+
+  # Same image twice = the two replicas for the load balancer demo.
+  service-catalog-a:
+    build: ./services/service-catalog
+    environment:
+      PORT: "3008"
+      INSTANCE_NAME: catalog-a
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/catalog_db?retryWrites=true&w=majority"
+    ports: ["3008:3008"]
+    restart: unless-stopped
+
+  service-catalog-b:
+    build: ./services/service-catalog
+    environment:
+      PORT: "3008"
+      INSTANCE_NAME: catalog-b
+      MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/catalog_db?retryWrites=true&w=majority"
+    ports: ["3009:3008"]
+    restart: unless-stopped

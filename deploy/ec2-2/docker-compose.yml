@@ -1,0 +1,28 @@
+# deploy/ec2-2/docker-compose.yml  (EC2-2: booking, vehicles, work-orders, service-catalog replica A)
+# Run from this folder on the instance:  docker compose up -d --build
+# Real settings live in ./env/*.env (gitignored). Create them from ./env.example/ (see deploy/README.md).
+services:
+  booking:
+    build: ../../services/booking
+    env_file: ./env/booking.env
+    ports: ["3003:3003"]
+    restart: unless-stopped
+
+  vehicles:
+    build: ../../services/vehicles
+    env_file: ./env/vehicles.env
+    ports: ["3004:3004"]
+    restart: unless-stopped
+
+  work-orders:
+    build: ../../services/work-orders
+    env_file: ./env/work-orders.env
+    ports: ["3005:3005"]
+    restart: unless-stopped
+
+  # Replica A of the load-balanced Service Catalog (INSTANCE_NAME=catalog-a in its env file)
+  service-catalog:
+    build: ../../services/service-catalog
+    env_file: ./env/service-catalog.env
+    ports: ["3008:3008"]
+    restart: unless-stopped

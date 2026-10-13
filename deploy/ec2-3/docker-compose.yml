@@ -1,0 +1,22 @@
+# deploy/ec2-3/docker-compose.yml  (EC2-3: repair-notes, billing, service-catalog replica B)
+# Run from this folder on the instance:  docker compose up -d --build
+# Real settings live in ./env/*.env (gitignored). Create them from ./env.example/ (see deploy/README.md).
+services:
+  repair-notes:
+    build: ../../services/repair-notes
+    env_file: ./env/repair-notes.env
+    ports: ["3006:3006"]
+    restart: unless-stopped
+
+  billing:
+    build: ../../services/billing
+    env_file: ./env/billing.env
+    ports: ["3007:3007"]
+    restart: unless-stopped
+
+  # Replica B of the load-balanced Service Catalog (INSTANCE_NAME=catalog-b in its env file)
+  service-catalog:
+    build: ../../services/service-catalog
+    env_file: ./env/service-catalog.env
+    ports: ["3008:3008"]
+    restart: unless-stopped
