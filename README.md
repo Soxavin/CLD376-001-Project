@@ -395,8 +395,8 @@ These are known shortcuts, each with what the stronger version would be:
 | Member | Side of the shop | Services | Other duties |
 | --- | --- | --- | --- |
 | Member 1 (Soxavin) | Customer | API Gateway, Booking, Vehicles | Repo setup, gateway policy, load balancer |
-| Member 2 (LaimengEung) | Mechanic | Registration, Work Orders, Repair Notes | Atlas, JWT secret, seed scripts, submission document |
-| Member 3 (Piesauce13) | Shop owner | Login, Billing, Service Catalog | EC2 instances, compose files, deployment |
+| Member 2 (Laimeng) | Mechanic | Registration, Work Orders, Repair Notes | Atlas, JWT secret, seed scripts, submission document |
+| Member 3 (Pissoth) | Shop owner | Login, Billing, Service Catalog | EC2 instances, compose files, deployment |
 
 ## Next: Kubernetes
 
