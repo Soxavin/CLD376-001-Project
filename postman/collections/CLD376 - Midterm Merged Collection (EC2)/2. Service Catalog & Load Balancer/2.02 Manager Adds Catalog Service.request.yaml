@@ -1,6 +1,6 @@
 $kind: http-request
 description: Manager creates a new catalog service.
-url: http://13.220.57.201:3000/api/catalog
+url: {{gateway}}/api/catalog
 method: POST
 body:
   type: json

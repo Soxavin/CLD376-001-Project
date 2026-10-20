@@ -98,9 +98,6 @@ services:
       INSTANCE_NAME: billing
       MONGO_URI: "mongodb+srv://${ATLAS_USER}:${ATLAS_PASSWORD}@${ATLAS_HOST}/billing_db?retryWrites=true&w=majority"
       GATEWAY_INTERNAL_URL: http://api-gateway:3000
-      # TEMPORARY: set WORK_ORDERS_STUB=true in .env while Work Orders doesn't exist yet.
-      WORK_ORDERS_STUB: ${WORK_ORDERS_STUB:-false}
-      WORK_ORDERS_STUB_STATUS: ${WORK_ORDERS_STUB_STATUS:-completed}
     ports: ["3007:3007"]
     restart: unless-stopped
 

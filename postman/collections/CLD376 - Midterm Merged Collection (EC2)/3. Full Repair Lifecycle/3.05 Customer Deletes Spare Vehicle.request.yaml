@@ -1,6 +1,6 @@
 $kind: http-request
 description: "Customer 1 deletes the throwaway car. Expects 204 with no body."
-url: http://13.220.57.201:3000/api/vehicles/{{spareVehicleId}}
+url: {{gateway}}/api/vehicles/{{spareVehicleId}}
 method: DELETE
 auth:
   type: bearer

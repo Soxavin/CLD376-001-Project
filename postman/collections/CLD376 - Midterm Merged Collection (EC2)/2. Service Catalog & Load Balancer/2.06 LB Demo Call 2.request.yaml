@@ -1,6 +1,6 @@
 $kind: http-request
 description: Load balancer test call 2 (alternates instance).
-url: http://13.220.57.201:3000/api/catalog/health
+url: {{gateway}}/api/catalog/health
 method: GET
 auth:
   type: noauth

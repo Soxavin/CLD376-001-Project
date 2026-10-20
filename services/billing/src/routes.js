@@ -10,27 +10,10 @@ const fail = (res, status, code, message) =>
 
 const PAYMENT_METHODS = ["cash", "bank_transfer", "card"];
 
-// ---------------------------------------------------------------------------
 // Cross-service call: GET /api/work-orders/:id, through the gateway, with the
 // caller's own token (the contract in the PRD). Returns { status, body }, or
 // null when the gateway can't be reached or takes longer than 5 seconds.
-//
-// TEMPORARY STUB: until Work Orders (Member 2) is running, set
-// WORK_ORDERS_STUB=true and this returns a fixed work order instead of calling
-// anyone. Set WORK_ORDERS_STUB_STATUS=in_progress to rehearse test N11.
-// Delete the stub branch once the real service exists.
-// ---------------------------------------------------------------------------
 async function getWorkOrder(req, id) {
-  if (process.env.WORK_ORDERS_STUB === "true") {
-    return {
-      status: 200,
-      body: {
-        _id: id,
-        customerId: "6702a0b7c8e4b2a1d3f4e590", // customer 1 from the PRD examples
-        status: process.env.WORK_ORDERS_STUB_STATUS || "completed",
-      },
-    };
-  }
   try {
     const response = await fetch(`${process.env.GATEWAY_INTERNAL_URL}/api/work-orders/${id}`, {
       headers: { authorization: req.headers.authorization || "" },

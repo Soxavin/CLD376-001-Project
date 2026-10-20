@@ -1,6 +1,6 @@
 $kind: http-request
 description: Logs in as manager and auto-saves managerToken and managerId.
-url: http://13.220.57.201:3000/api/auth/login
+url: {{gateway}}/api/auth/login
 method: POST
 body:
   type: json

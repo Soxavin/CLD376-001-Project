@@ -1,6 +1,6 @@
 $kind: http-request
 description: Logs in as customer 1 and auto-saves customerToken and customerId.
-url: http://13.220.57.201:3000/api/auth/login
+url: {{gateway}}/api/auth/login
 method: POST
 body:
   type: json

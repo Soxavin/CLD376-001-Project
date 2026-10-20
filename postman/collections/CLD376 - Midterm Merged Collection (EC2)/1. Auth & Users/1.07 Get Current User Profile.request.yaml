@@ -1,6 +1,6 @@
 $kind: http-request
 description: Returns authenticated user identity and claims from gateway headers.
-url: http://13.220.57.201:3000/api/auth/me
+url: {{gateway}}/api/auth/me
 method: GET
 auth:
   type: bearer

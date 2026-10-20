@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "CLD376 - Midterm Merged Collection (EC2)",
-    "description": "Complete merged Postman collection for CLD376 Car Repair Shop System on AWS EC2 (13.220.57.201:3000). Matches the report document exactly 1-to-1.",
+    "description": "Complete merged Postman collection for CLD376 Car Repair Shop System on AWS EC2 ({{gateway}}). Matches the report document exactly 1-to-1.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "item": [
@@ -14,15 +14,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/register",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/register",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -61,15 +56,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/login",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -111,15 +101,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/login",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -161,15 +146,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/login",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -211,15 +191,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/login",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -261,15 +236,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/login",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -311,15 +281,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/me",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/me",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -356,15 +321,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/verify",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/verify",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -406,15 +366,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog"
@@ -443,15 +398,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog/health",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog/health",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog",
@@ -481,15 +431,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog/health",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog/health",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog",
@@ -519,15 +464,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog/health",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog/health",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog",
@@ -557,15 +497,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog/health",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog/health",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog",
@@ -595,15 +530,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog"
@@ -650,15 +580,10 @@
             "method": "PUT",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog/{{catalogServiceId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog/{{catalogServiceId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog",
@@ -705,15 +630,10 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog/{{catalogServiceId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog/{{catalogServiceId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog",
@@ -755,15 +675,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/vehicles",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/vehicles",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "vehicles"
@@ -810,15 +725,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/vehicles",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/vehicles",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "vehicles"
@@ -855,15 +765,10 @@
             "method": "PUT",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/vehicles/{{vehicleId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/vehicles/{{vehicleId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "vehicles",
@@ -910,15 +815,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/vehicles",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/vehicles",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "vehicles"
@@ -965,15 +865,10 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/vehicles/{{spareVehicleId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/vehicles/{{spareVehicleId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "vehicles",
@@ -1010,15 +905,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings"
@@ -1065,15 +955,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings"
@@ -1120,15 +1005,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings?status=pending",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings?status=pending",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings"
@@ -1171,15 +1051,10 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings/{{spareBookingId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings/{{spareBookingId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings",
@@ -1216,15 +1091,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings/{{bookingId}}/status",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings/{{bookingId}}/status",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings",
@@ -1271,15 +1141,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders"
@@ -1326,15 +1191,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}/status",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders/{{workOrderId}}/status",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders",
@@ -1381,15 +1241,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/notes",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/notes",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "notes"
@@ -1436,15 +1291,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/notes",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/notes",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "notes"
@@ -1489,15 +1339,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/notes?workOrderId={{workOrderId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/notes?workOrderId={{workOrderId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "notes"
@@ -1540,15 +1385,10 @@
             "method": "PUT",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/notes/{{noteId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/notes/{{noteId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "notes",
@@ -1595,15 +1435,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/notes",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/notes",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "notes"
@@ -1650,15 +1485,10 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/notes/{{spareNoteId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/notes/{{spareNoteId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "notes",
@@ -1695,15 +1525,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}/status",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders/{{workOrderId}}/status",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders",
@@ -1750,15 +1575,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders/{{workOrderId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders",
@@ -1795,15 +1615,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/invoices",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/invoices",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "invoices"
@@ -1850,15 +1665,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/invoices/{{invoiceId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/invoices/{{invoiceId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "invoices",
@@ -1895,15 +1705,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/invoices/{{invoiceId}}/pay",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/invoices/{{invoiceId}}/pay",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "invoices",
@@ -1955,15 +1760,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/login",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -2002,15 +1802,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings"
@@ -2039,15 +1834,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/me",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/me",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -2084,15 +1874,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/catalog",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/catalog",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "catalog"
@@ -2137,15 +1922,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/invoices",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/invoices",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "invoices"
@@ -2190,15 +1970,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/vehicles/{{vehicleId}}",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/vehicles/{{vehicleId}}",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "vehicles",
@@ -2235,15 +2010,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}/status",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders/{{workOrderId}}/status",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders",
@@ -2290,15 +2060,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/auth/register",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/auth/register",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "auth",
@@ -2338,15 +2103,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings"
@@ -2391,15 +2151,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings"
@@ -2446,15 +2201,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders"
@@ -2500,15 +2250,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/bookings/{{pendingBookingId}}/status",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/bookings/{{pendingBookingId}}/status",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "bookings",
@@ -2555,15 +2300,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders"
@@ -2610,15 +2350,10 @@
             "method": "PATCH",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/work-orders/{{inProgressWorkOrderId}}/status",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/work-orders/{{inProgressWorkOrderId}}/status",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "work-orders",
@@ -2665,15 +2400,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/invoices",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/invoices",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "invoices"
@@ -2719,15 +2449,10 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://13.220.57.201:3000/api/invoices",
-              "protocol": "http",
+              "raw": "{{gateway}}/api/invoices",
               "host": [
-                "18",
-                "206",
-                "176",
-                "172"
+                "{{gateway}}"
               ],
-              "port": "3000",
               "path": [
                 "api",
                 "invoices"

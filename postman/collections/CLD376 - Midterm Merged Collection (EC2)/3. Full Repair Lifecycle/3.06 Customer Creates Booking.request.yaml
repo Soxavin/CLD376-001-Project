@@ -1,6 +1,6 @@
 $kind: http-request
 description: Customer books service for their vehicle. Auto-saves bookingId.
-url: http://13.220.57.201:3000/api/bookings
+url: {{gateway}}/api/bookings
 method: POST
 body:
   type: json

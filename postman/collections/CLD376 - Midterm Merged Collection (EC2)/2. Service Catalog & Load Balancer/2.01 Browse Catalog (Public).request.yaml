@@ -1,6 +1,6 @@
 $kind: http-request
 description: Public request returning all catalog services with integer cents prices.
-url: http://13.220.57.201:3000/api/catalog
+url: {{gateway}}/api/catalog
 method: GET
 auth:
   type: noauth

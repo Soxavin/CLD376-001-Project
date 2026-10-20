@@ -1,6 +1,6 @@
 $kind: http-request
 description: Expects 409 DUPLICATE (enforced by Mongo unique index).
-url: http://13.220.57.201:3000/api/invoices
+url: {{gateway}}/api/invoices
 method: POST
 body:
   type: json

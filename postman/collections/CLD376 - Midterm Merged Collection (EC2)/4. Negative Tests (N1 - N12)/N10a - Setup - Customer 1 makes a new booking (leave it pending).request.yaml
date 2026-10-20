@@ -1,6 +1,6 @@
 $kind: http-request
 description: "SETUP for N10, no screenshot needed. Customer 1 books a service and the booking stays pending. Saves pendingBookingId (a BOOKING id)."
-url: http://13.220.57.201:3000/api/bookings
+url: {{gateway}}/api/bookings
 method: POST
 body:
   type: json

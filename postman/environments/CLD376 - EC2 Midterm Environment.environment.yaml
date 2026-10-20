@@ -1,0 +1,46 @@
+name: CLD376 - EC2 Midterm Environment
+values:
+  - key: gateway
+    value: 'http://13.220.57.201:3000'
+  - key: customerToken
+    value: ''
+  - key: customer2Token
+    value: ''
+  - key: mechanicToken
+    value: ''
+  - key: mechanic2Token
+    value: ''
+  - key: managerToken
+    value: ''
+  - key: customerId
+    value: ''
+  - key: customer2Id
+    value: ''
+  - key: mechanicId
+    value: ''
+  - key: mechanic2Id
+    value: ''
+  - key: managerId
+    value: ''
+  - key: catalogServiceId
+    value: ''
+  - key: vehicleId
+    value: ''
+  - key: bookingId
+    value: ''
+  - key: workOrderId
+    value: ''
+  - key: noteId
+    value: ''
+  - key: invoiceId
+    value: ''
+  - key: pendingBookingId
+    value: ''
+  - key: inProgressWorkOrderId
+    value: ''
+  - key: spareVehicleId
+    value: ''
+  - key: spareBookingId
+    value: ''
+  - key: spareNoteId
+    value: ''

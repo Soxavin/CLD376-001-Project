@@ -1,6 +1,6 @@
 $kind: http-request
 description: Expects 403 FORBIDDEN (ownership check).
-url: http://13.220.57.201:3000/api/vehicles/{{vehicleId}}
+url: {{gateway}}/api/vehicles/{{vehicleId}}
 method: GET
 auth:
   type: bearer

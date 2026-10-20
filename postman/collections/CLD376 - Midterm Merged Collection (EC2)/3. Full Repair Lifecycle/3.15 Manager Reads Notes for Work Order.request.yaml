@@ -1,6 +1,6 @@
 $kind: http-request
 description: "Manager reads all notes of the lifecycle work order. Expects 200 with both notes (finding and work_done)."
-url: http://13.220.57.201:3000/api/notes?workOrderId={{workOrderId}}
+url: {{gateway}}/api/notes?workOrderId={{workOrderId}}
 method: GET
 auth:
   type: bearer

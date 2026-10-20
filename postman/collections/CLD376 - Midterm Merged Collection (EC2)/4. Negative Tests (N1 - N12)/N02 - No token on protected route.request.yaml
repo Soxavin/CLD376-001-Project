@@ -1,6 +1,6 @@
 $kind: http-request
 description: Expects 401 NO_TOKEN.
-url: http://13.220.57.201:3000/api/bookings
+url: {{gateway}}/api/bookings
 method: GET
 auth:
   type: noauth

@@ -1,6 +1,6 @@
 $kind: http-request
 description: "Manager sees the pending queue. Expects 200 with at least the spare booking from 7.1."
-url: http://13.220.57.201:3000/api/bookings?status=pending
+url: {{gateway}}/api/bookings?status=pending
 method: GET
 auth:
   type: bearer
