@@ -4,10 +4,8 @@
 // rejected with 403 (deny by default), so a forgotten row blocks access
 // instead of silently opening it.
 //
-// Rows are copied from the Roles column of each service's table in the PRD.
 // "Own customer", "Assigned mechanic" and "Author" appear here as just that
 // role: the gateway can't know who owns a record, the service checks that.
-// EACH OWNER: please verify your service's rows below against your spec.
 const ALL = ["customer", "mechanic", "manager"];
 
 module.exports = [
