@@ -1,0 +1,11 @@
+$kind: http-request
+description: Public request returning all catalog services with integer cents prices.
+url: http://13.220.57.201:3000/api/catalog
+method: GET
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 1000

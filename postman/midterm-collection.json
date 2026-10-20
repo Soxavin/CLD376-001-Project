@@ -1,0 +1,2772 @@
+{
+  "info": {
+    "name": "CLD376 - Midterm Merged Collection (EC2)",
+    "description": "Complete merged Postman collection for CLD376 Car Repair Shop System on AWS EC2 (13.220.57.201:3000). Matches the report document exactly 1-to-1.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Auth & Users",
+      "item": [
+        {
+          "name": "1.1 Customer Self-Registration",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Customer self-registration with default customer role.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Customer\",\n  \"email\": \"newcustomer9154@shop.test\",\n  \"phone\": \"012345678\",\n  \"password\": \"Test1234!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.2 Login as Manager",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Logs in as manager and auto-saves managerToken and managerId.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"manager@shop.test\",\n  \"password\": \"Test1234!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"managerToken\", res.token);",
+                  "pm.environment.set(\"managerId\", res.user._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.3 Login as Customer 1",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Logs in as customer 1 and auto-saves customerToken and customerId.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer1@shop.test\",\n  \"password\": \"Test1234!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"customerToken\", res.token);",
+                  "pm.environment.set(\"customerId\", res.user._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.4 Login as Customer 2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Logs in as customer 2 and auto-saves customer2Token and customer2Id.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer2@shop.test\",\n  \"password\": \"Test1234!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"customer2Token\", res.token);",
+                  "pm.environment.set(\"customer2Id\", res.user._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.5 Login as Mechanic 1",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Logs in as mechanic 1 and auto-saves mechanicToken and mechanicId.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"mechanic1@shop.test\",\n  \"password\": \"Test1234!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"mechanicToken\", res.token);",
+                  "pm.environment.set(\"mechanicId\", res.user._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.6 Login as Mechanic 2",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Logs in as mechanic 2 and auto-saves mechanic2Token and mechanic2Id.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"mechanic2@shop.test\",\n  \"password\": \"Test1234!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"mechanic2Token\", res.token);",
+                  "pm.environment.set(\"mechanic2Id\", res.user._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.7 Get Current User Profile",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Returns authenticated user identity and claims from gateway headers.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "1.8 Verify Token Claims",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/verify",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "verify"
+              ]
+            },
+            "description": "Re-verifies token signature and claims.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "2. Service Catalog & Load Balancer",
+      "item": [
+        {
+          "name": "2.1 Browse Catalog (Public)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog"
+              ]
+            },
+            "description": "Public request returning all catalog services with integer cents prices.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.2 LB Demo Call 1",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog/health",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog",
+                "health"
+              ]
+            },
+            "description": "Load balancer test call 1 (expects catalog-a or catalog-b).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.3 LB Demo Call 2",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog/health",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog",
+                "health"
+              ]
+            },
+            "description": "Load balancer test call 2 (alternates instance).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.4 LB Demo Call 3",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog/health",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog",
+                "health"
+              ]
+            },
+            "description": "Load balancer test call 3 (alternates instance).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.5 LB Demo Call 4",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog/health",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog",
+                "health"
+              ]
+            },
+            "description": "Load balancer test call 4 (alternates instance).",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.6 Manager Adds Catalog Service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog"
+              ]
+            },
+            "description": "Manager creates a new catalog service.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Diagnostic Scan 583\",\n  \"description\": \"Comprehensive OBD-II diagnostics scan\",\n  \"priceCents\": 4500,\n  \"active\": true,\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"catalogServiceId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.7 Manager Updates Catalog Service",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog/{{catalogServiceId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog",
+                "{{catalogServiceId}}"
+              ]
+            },
+            "description": "Manager changes the price of the service created in 2.6. Expects 200 with the new price (5500).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Diagnostic Scan 583\",\n  \"description\": \"Comprehensive OBD-II diagnostics scan (updated)\",\n  \"priceCents\": 5500,\n  \"active\": true,\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"New price\", () => pm.expect(pm.response.json().priceCents).to.eql(5500));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "2.8 Manager Deletes Catalog Service",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog/{{catalogServiceId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog",
+                "{{catalogServiceId}}"
+              ]
+            },
+            "description": "Manager deletes the service created in 2.6. Expects 204 with no body. Run 2.6 again to create another one.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "3. Full Repair Lifecycle",
+      "item": [
+        {
+          "name": "Step 1 - Customer Adds Vehicle",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/vehicles",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "vehicles"
+              ]
+            },
+            "description": "Customer registers a vehicle. Auto-saves vehicleId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plateNumber\": \"CAR-379154\",\n  \"make\": \"Toyota\",\n  \"model\": \"Camry\",\n  \"year\": 2021,\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"vehicleId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 1a - Customer Lists Own Vehicles",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/vehicles",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "vehicles"
+              ]
+            },
+            "description": "Customer 1 lists vehicles and sees only their own. Expects 200.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Is an array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 1b - Customer Updates Vehicle Color",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/vehicles/{{vehicleId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "vehicles",
+                "{{vehicleId}}"
+              ]
+            },
+            "description": "Customer 1 changes the color of the car from Step 1. Expects 200 with the new color. Keeps the plate used in Step 1 (CAR-379154); change it here if you changed it there.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plateNumber\": \"CAR-379154\",\n  \"make\": \"Toyota\",\n  \"model\": \"Camry\",\n  \"year\": 2021,\n  \"color\": \"Silver\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"New color\", () => pm.expect(pm.response.json().color).to.eql(\"Silver\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 1c - Setup - Customer Adds Spare Vehicle",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/vehicles",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "vehicles"
+              ]
+            },
+            "description": "SETUP for Step 1d, no screenshot needed. Creates a throwaway car with a unique plate. Saves spareVehicleId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"plateNumber\": \"SPARE-{{$timestamp}}\",\n  \"make\": \"Honda\",\n  \"model\": \"Civic\",\n  \"year\": 2018,\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"spareVehicleId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 1d - Customer Deletes Spare Vehicle",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/vehicles/{{spareVehicleId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "vehicles",
+                "{{spareVehicleId}}"
+              ]
+            },
+            "description": "Customer 1 deletes the throwaway car. Expects 204 with no body.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 2 - Customer Creates Booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings"
+              ]
+            },
+            "description": "Customer books service for their vehicle. Auto-saves bookingId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"serviceRequested\": \"Brake Inspection and Oil Change\",\n  \"preferredDate\": \"2026-11-20T10:00:00.000Z\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"bookingId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 2a - Setup - Customer Makes Spare Booking (stays pending)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings"
+              ]
+            },
+            "description": "SETUP for Steps 2b and 2c, no screenshot needed. Customer 1 makes a second booking that stays pending. Saves spareBookingId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"serviceRequested\": \"Spare Tire Check\",\n  \"preferredDate\": \"2026-12-05T10:00:00.000Z\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"spareBookingId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 2b - Manager Lists Pending Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings?status=pending",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "pending"
+                }
+              ]
+            },
+            "description": "Manager sees the pending queue (the Step 2 booking and the spare one). Expects 200.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Is an array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 2c - Manager Deletes Spare Booking",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings/{{spareBookingId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings",
+                "{{spareBookingId}}"
+              ]
+            },
+            "description": "Manager deletes the spare booking. Expects 204 with no body.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 3 - Manager Approves Booking",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings/{{bookingId}}/status",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings",
+                "{{bookingId}}",
+                "status"
+              ]
+            },
+            "description": "Manager approves the pending booking.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 4 - Manager Creates Work Order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders"
+              ]
+            },
+            "description": "Manager creates work order and assigns mechanic. Auto-saves workOrderId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{bookingId}}\",\n  \"mechanicId\": \"{{mechanicId}}\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"workOrderId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 5 - Mechanic Sets In Progress",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}/status",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders",
+                "{{workOrderId}}",
+                "status"
+              ]
+            },
+            "description": "Mechanic sets work order status to in_progress.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_progress\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 6 - Mechanic Adds Finding Note",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/notes",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "notes"
+              ]
+            },
+            "description": "Mechanic logs a diagnostic finding note.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"type\": \"finding\",\n  \"text\": \"Brake pads worn down to 2mm, rotors in good condition\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"noteId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 7 - Mechanic Adds Work Done Note",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/notes",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "notes"
+              ]
+            },
+            "description": "Mechanic logs completed work note.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"type\": \"work_done\",\n  \"text\": \"Replaced front brake pads with OEM pads and tested braking performance\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 7a - Manager Reads Notes for Work Order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/notes?workOrderId={{workOrderId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "notes"
+              ],
+              "query": [
+                {
+                  "key": "workOrderId",
+                  "value": "{{workOrderId}}"
+                }
+              ]
+            },
+            "description": "Manager reads all notes of this work order. Expects 200 with both notes (finding and work_done).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Is an array\", () => pm.expect(pm.response.json()).to.be.an(\"array\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 7b - Mechanic Edits Own Note",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/notes/{{noteId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "notes",
+                "{{noteId}}"
+              ]
+            },
+            "description": "Mechanic 1 edits the finding note from Step 6 (type and text only). Expects 200 with the new text.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"finding\",\n  \"text\": \"Brake pads worn down to 2mm, rotors in good condition. Recommend brake fluid change at next visit\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Text updated\", () => pm.expect(pm.response.json().text).to.include(\"brake fluid\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 7c - Setup - Mechanic Adds Spare Note",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/notes",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "notes"
+              ]
+            },
+            "description": "SETUP for Step 7d, no screenshot needed. Mechanic 1 adds a throwaway note (the work order is still in_progress). Saves spareNoteId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"type\": \"work_done\",\n  \"text\": \"Spare note to be deleted\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"spareNoteId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 7d - Manager Deletes Spare Note",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/notes/{{spareNoteId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "notes",
+                "{{spareNoteId}}"
+              ]
+            },
+            "description": "Manager deletes the throwaway note. Expects 204 with no body.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 204\", () => pm.response.to.have.status(204));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 8 - Mechanic Sets Completed",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}/status",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders",
+                "{{workOrderId}}",
+                "status"
+              ]
+            },
+            "description": "Mechanic marks work order completed and sets timestamp.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"completed\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 9 - Customer Checks Work Order Status",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders",
+                "{{workOrderId}}"
+              ]
+            },
+            "description": "Customer inspects work order to verify completed status.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 10 - Manager Creates Invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/invoices",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            },
+            "description": "Billing calls Work Orders cross-service, verifies completion, and computes total server-side (10500 = $105.00). Auto-saves invoiceId.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"lineItems\": [\n    {\n      \"description\": \"Brake Pad Replacement Service\",\n      \"quantity\": 1,\n      \"unitPriceCents\": 6000\n    },\n    {\n      \"description\": \"OEM Ceramic Brake Pads (Part)\",\n      \"quantity\": 1,\n      \"unitPriceCents\": 4500\n    }\n  ],\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"invoiceId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 11 - Customer Views Own Invoice",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/invoices/{{invoiceId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices",
+                "{{invoiceId}}"
+              ]
+            },
+            "description": "Customer reads their generated invoice.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Step 12 - Manager Marks Invoice Paid",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/invoices/{{invoiceId}}/pay",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices",
+                "{{invoiceId}}",
+                "pay"
+              ]
+            },
+            "description": "Manager records payment confirmation.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"paymentMethod\": \"card\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "4. Negative Tests (N1 - N12)",
+      "item": [
+        {
+          "name": "N1 - Wrong email or password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Expects 401 INVALID_CREDENTIALS.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"manager@shop.test\",\n  \"password\": \"WrongPassword123!\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N2 - No token on protected route",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings"
+              ]
+            },
+            "description": "Expects 401 NO_TOKEN.",
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N3 - Tampered token signature",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Expects 401 INVALID_TOKEN.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}xyz",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 401\", () => pm.response.to.have.status(401));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N4 - Customer tries to add catalog service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/catalog",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "catalog"
+              ]
+            },
+            "description": "Expects 403 FORBIDDEN.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Unauthorized Service\",\n  \"priceCents\": 1000,\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 403\", () => pm.response.to.have.status(403));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N5 - Mechanic tries to create invoice",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/invoices",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            },
+            "description": "Expects 403 FORBIDDEN.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"lineItems\": [\n    {\n      \"description\": \"Test\",\n      \"quantity\": 1,\n      \"unitPriceCents\": 1000\n    }\n  ],\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 403\", () => pm.response.to.have.status(403));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N6 - Customer 2 reads Customer 1 vehicle",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/vehicles/{{vehicleId}}",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "vehicles",
+                "{{vehicleId}}"
+              ]
+            },
+            "description": "Expects 403 FORBIDDEN (ownership check).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 403\", () => pm.response.to.have.status(403));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N7 - Mechanic 2 updates Mechanic 1 work order",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders/{{workOrderId}}/status",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders",
+                "{{workOrderId}}",
+                "status"
+              ]
+            },
+            "description": "Expects 403 FORBIDDEN (assigned mechanic check).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanic2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_progress\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 403\", () => pm.response.to.have.status(403));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N8 - Register with role manager in body",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Expects 201, but role is safely forced to customer.",
+            "auth": {
+              "type": "noauth"
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Privilege Escalation Test\",\n  \"email\": \"hacker9154@shop.test\",\n  \"password\": \"Test1234!\",\n  \"role\": \"manager\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Role is customer\", () => pm.expect(pm.response.json().user.role).to.eql(\"customer\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N9 - Customer 2 books Customer 1 vehicle",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings"
+              ]
+            },
+            "description": "Expects 400 VEHICLE_NOT_OWNED.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customer2Token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"serviceRequested\": \"Hijack Service\",\n  \"preferredDate\": \"2026-11-25T10:00:00.000Z\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N10a - Setup - Customer 1 makes a new booking (leave it pending)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings"
+              ]
+            },
+            "description": "SETUP for N10, no screenshot needed. Customer 1 books a service and the booking stays pending. Saves pendingBookingId (a BOOKING id).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{customerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"vehicleId\": \"{{vehicleId}}\",\n  \"serviceRequested\": \"Tire Rotation\",\n  \"preferredDate\": \"2026-11-28T10:00:00.000Z\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"pendingBookingId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N10 - Work order from unapproved booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders"
+              ]
+            },
+            "description": "Expects 400 BOOKING_NOT_APPROVED. Uses pendingBookingId from N10a (a booking id, not a user id).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{pendingBookingId}}\",\n  \"mechanicId\": \"{{mechanicId}}\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Error code BOOKING_NOT_APPROVED\", () => pm.expect(pm.response.json().error.code).to.eql(\"BOOKING_NOT_APPROVED\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N11a - Setup - Manager approves the pending booking",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/bookings/{{pendingBookingId}}/status",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "bookings",
+                "{{pendingBookingId}}",
+                "status"
+              ]
+            },
+            "description": "SETUP for N11, no screenshot needed. Approves the booking that N10 used.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N11b - Setup - Manager creates a work order from that booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders"
+              ]
+            },
+            "description": "SETUP for N11, no screenshot needed. Saves inProgressWorkOrderId (a WORK ORDER id).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookingId\": \"{{pendingBookingId}}\",\n  \"mechanicId\": \"{{mechanicId}}\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 201\", () => pm.response.to.have.status(201));",
+                  "const res = pm.response.json();",
+                  "pm.environment.set(\"inProgressWorkOrderId\", res._id);"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N11c - Setup - Mechanic 1 sets the work order to in_progress (do NOT complete it)",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/work-orders/{{inProgressWorkOrderId}}/status",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "work-orders",
+                "{{inProgressWorkOrderId}}",
+                "status"
+              ]
+            },
+            "description": "SETUP for N11, no screenshot needed. The work order must stay unfinished.",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{mechanicToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"in_progress\",\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 200\", () => pm.response.to.have.status(200));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N11 - Invoice for incomplete work order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/invoices",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            },
+            "description": "Expects 400 WORK_ORDER_NOT_COMPLETED. Uses inProgressWorkOrderId from N11b (a work order id, not a user id).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{inProgressWorkOrderId}}\",\n  \"lineItems\": [\n    {\n      \"description\": \"Test\",\n      \"quantity\": 1,\n      \"unitPriceCents\": 2000\n    }\n  ],\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Error code WORK_ORDER_NOT_COMPLETED\", () => pm.expect(pm.response.json().error.code).to.eql(\"WORK_ORDER_NOT_COMPLETED\"));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "N12 - Duplicate invoice on same work order",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://13.220.57.201:3000/api/invoices",
+              "protocol": "http",
+              "host": [
+                "18",
+                "206",
+                "176",
+                "172"
+              ],
+              "port": "3000",
+              "path": [
+                "api",
+                "invoices"
+              ]
+            },
+            "description": "Expects 409 DUPLICATE (enforced by Mongo unique index).",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{managerToken}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workOrderId\": \"{{workOrderId}}\",\n  \"lineItems\": [\n    {\n      \"description\": \"Duplicate bill\",\n      \"quantity\": 1,\n      \"unitPriceCents\": 5000\n    }\n  ],\n  \"activity\": \"midterm\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test(\"Status 409\", () => pm.response.to.have.status(409));"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

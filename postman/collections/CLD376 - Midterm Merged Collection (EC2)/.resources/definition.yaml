@@ -1,0 +1,6 @@
+$kind: collection
+description: Complete merged Postman collection for CLD376 Car Repair Shop System on AWS EC2 (13.220.57.201:3000). Matches the report document exactly 1-to-1.
+variables:
+  - key: auth_secret_17i6
+    secret: true
+    disabled: false

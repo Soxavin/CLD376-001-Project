@@ -1,0 +1,27 @@
+$kind: http-request
+description: Expects 409 DUPLICATE (enforced by Mongo unique index).
+url: http://13.220.57.201:3000/api/invoices
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "workOrderId": "{{workOrderId}}",
+      "lineItems": [
+        {
+          "description": "Duplicate bill",
+          "quantity": 1,
+          "unitPriceCents": 5000
+        }
+      ],
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 409", () => pm.response.to.have.status(409));
+    language: text/javascript
+order: 12000

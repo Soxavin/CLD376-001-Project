@@ -1,0 +1,24 @@
+$kind: http-request
+description: Manager creates work order and assigns mechanic. Auto-saves workOrderId.
+url: http://13.220.57.201:3000/api/work-orders
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "bookingId": "{{bookingId}}",
+      "mechanicId": "{{mechanicId}}",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("workOrderId", res._id);
+    language: text/javascript
+order: 4000

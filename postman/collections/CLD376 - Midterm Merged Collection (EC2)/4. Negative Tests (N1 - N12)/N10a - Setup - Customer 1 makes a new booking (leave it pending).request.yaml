@@ -1,0 +1,25 @@
+$kind: http-request
+description: "SETUP for N10, no screenshot needed. Customer 1 books a service and the booking stays pending. Saves pendingBookingId (a BOOKING id)."
+url: http://13.220.57.201:3000/api/bookings
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "vehicleId": "{{vehicleId}}",
+      "serviceRequested": "Tire Rotation",
+      "preferredDate": "2026-11-28T10:00:00.000Z",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("pendingBookingId", res._id);
+    language: text/javascript
+order: 9500

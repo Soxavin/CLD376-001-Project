@@ -1,0 +1,14 @@
+$kind: http-request
+description: "Manager deletes the spare booking. Expects 204 with no body."
+url: http://13.220.57.201:3000/api/bookings/{{spareBookingId}}
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 204", () => pm.response.to.have.status(204));
+    language: text/javascript
+order: 3000

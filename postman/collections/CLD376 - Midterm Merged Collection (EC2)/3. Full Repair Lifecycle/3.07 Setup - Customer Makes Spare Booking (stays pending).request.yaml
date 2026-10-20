@@ -1,0 +1,25 @@
+$kind: http-request
+description: "SETUP for 7.2 and 7.3, no screenshot needed. Customer 1 books a service and it stays pending. Saves spareBookingId."
+url: http://13.220.57.201:3000/api/bookings
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "vehicleId": "{{vehicleId}}",
+      "serviceRequested": "Spare Tire Check",
+      "preferredDate": "2026-12-05T10:00:00.000Z",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("spareBookingId", res._id);
+    language: text/javascript
+order: 1000

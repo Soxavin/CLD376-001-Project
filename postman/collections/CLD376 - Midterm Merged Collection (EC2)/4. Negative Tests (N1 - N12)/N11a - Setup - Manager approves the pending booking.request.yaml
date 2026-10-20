@@ -1,0 +1,21 @@
+$kind: http-request
+description: "SETUP for N11, no screenshot needed. Approves the booking that N10 used."
+url: http://13.220.57.201:3000/api/bookings/{{pendingBookingId}}/status
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+      "status": "approved",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 10100

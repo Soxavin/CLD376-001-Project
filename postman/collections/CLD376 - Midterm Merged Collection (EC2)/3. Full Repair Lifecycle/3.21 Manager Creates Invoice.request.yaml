@@ -1,0 +1,35 @@
+$kind: http-request
+description: Billing calls Work Orders cross-service, verifies completion, and computes total server-side (10500 = $105.00). Auto-saves invoiceId.
+url: http://13.220.57.201:3000/api/invoices
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "workOrderId": "{{workOrderId}}",
+      "lineItems": [
+        {
+          "description": "Brake Pad Replacement Service",
+          "quantity": 1,
+          "unitPriceCents": 6000
+        },
+        {
+          "description": "OEM Ceramic Brake Pads (Part)",
+          "quantity": 1,
+          "unitPriceCents": 4500
+        }
+      ],
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("invoiceId", res._id);
+    language: text/javascript
+order: 10000

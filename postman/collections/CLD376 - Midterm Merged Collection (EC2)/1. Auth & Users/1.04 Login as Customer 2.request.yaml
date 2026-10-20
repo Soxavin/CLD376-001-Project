@@ -1,0 +1,23 @@
+$kind: http-request
+description: Logs in as customer 2 and auto-saves customer2Token and customer2Id.
+url: http://13.220.57.201:3000/api/auth/login
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "email": "customer2@shop.test",
+      "password": "Test1234!",
+      "activity": "midterm"
+    }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      const res = pm.response.json();
+      pm.environment.set("customer2Token", res.token);
+      pm.environment.set("customer2Id", res.user._id);
+    language: text/javascript
+order: 4000

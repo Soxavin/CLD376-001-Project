@@ -1,0 +1,23 @@
+$kind: http-request
+description: "Mechanic 1 edits the finding note from Step 6 (type and text only). Expects 200."
+url: http://13.220.57.201:3000/api/notes/{{noteId}}
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "type": "finding",
+      "text": "Brake pads worn down to 2mm, rotors in good condition. Recommend brake fluid change at next visit",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{mechanicToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      pm.test("Text updated", () => pm.expect(pm.response.json().text).to.include("brake fluid"));
+    language: text/javascript
+order: 2000

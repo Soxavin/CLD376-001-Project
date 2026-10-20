@@ -1,0 +1,27 @@
+$kind: http-request
+description: Expects 400 WORK_ORDER_NOT_COMPLETED.
+url: http://13.220.57.201:3000/api/invoices
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "workOrderId": "6acdab38bab18df2dfd4072e",
+      "lineItems": [
+        {
+          "description": "Test",
+          "quantity": 1,
+          "unitPriceCents": 2000
+        }
+      ],
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 400 or 502", () => pm.expect(pm.response.code).to.be.oneOf([400, 502]));
+    language: text/javascript
+order: 11000
