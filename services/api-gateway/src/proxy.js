@@ -1,5 +1,5 @@
+const http = require("http");
 const { createProxyMiddleware } = require("http-proxy-middleware");
-const { pickCatalogTarget, targets } = require("./loadBalancer");
 
 // Paths are forwarded unchanged. That's why these proxies are mounted with
 // app.use(proxy) and a pathFilter: app.use("/api/x", proxy) would make
@@ -12,7 +12,7 @@ const upstreams = {
   workOrders: process.env.WORK_ORDERS_URL,
   notes: process.env.NOTES_URL,
   billing: process.env.BILLING_URL,
-  catalog: targets,
+  catalog: process.env.CATALOG_URL,
 };
 
 const startsWith = (prefix) => (pathname) =>
@@ -47,7 +47,13 @@ const proxies = [
   proxyTo(upstreams.workOrders, startsWith("/api/work-orders")),
   proxyTo(upstreams.notes, startsWith("/api/notes")),
   proxyTo(upstreams.billing, startsWith("/api/invoices")),
-  proxyTo(targets[0], startsWith("/api/catalog"), { router: () => pickCatalogTarget() }),
+  // There are 2 catalog pods behind one Kubernetes Service, and the Service
+  // spreads requests across them. Node reuses connections by default, which
+  // would pin every request to the same pod, so the catalog gets a fresh
+  // connection each time.
+  proxyTo(upstreams.catalog, startsWith("/api/catalog"), {
+    agent: new http.Agent({ keepAlive: false }),
+  }),
 ];
 
 module.exports = { proxies, upstreams };

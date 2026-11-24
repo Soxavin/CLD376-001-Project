@@ -1,5 +1,10 @@
 # Deploying to the 3 EC2 instances
 
+> This is the **midterm** setup. The final project runs on Minikube instead (see `k8s/`).
+> The midterm gateway round-robined between two catalog URLs; that code was removed for the
+> final, because the Kubernetes Service balances the replicas. To reproduce the midterm
+> exactly, check out commit `394b70c`.
+
 | Instance | Folder | Containers |
 |---|---|---|
 | EC2-1 | `deploy/ec2-1` | api-gateway (3000), registration (3001), login (3002) |
