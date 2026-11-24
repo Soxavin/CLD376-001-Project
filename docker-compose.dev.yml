@@ -29,8 +29,9 @@ services:
       WORK_ORDERS_URL: http://work-orders:3005
       NOTES_URL: http://repair-notes:3006
       BILLING_URL: http://billing:3007
-      # The two Service Catalog replicas the gateway round-robins between:
-      CATALOG_URLS: http://service-catalog-a:3008,http://service-catalog-b:3008
+      # Load balancing now happens in Kubernetes (k8s/), so locally the gateway
+      # just talks to replica A. Replica B is still here to test it on its own.
+      CATALOG_URL: http://service-catalog-a:3008
     ports: ["3000:3000"]
     restart: unless-stopped
 

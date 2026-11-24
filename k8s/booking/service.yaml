@@ -1,0 +1,12 @@
+# ClusterIP: reachable only inside the cluster. Clients go through the gateway.
+apiVersion: v1
+kind: Service
+metadata:
+  name: booking
+spec:
+  type: ClusterIP
+  selector:
+    app: booking
+  ports:
+    - port: 3003
+      targetPort: 3003

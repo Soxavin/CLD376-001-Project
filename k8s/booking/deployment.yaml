@@ -1,0 +1,58 @@
+# Booking: customers book a service for their own car. Checks ownership with Vehicles through the gateway.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: booking
+  labels:
+    app: booking
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: booking
+  template:
+    metadata:
+      labels:
+        app: booking
+    spec:
+      containers:
+        - name: booking
+          image: shop-booking:v2
+          imagePullPolicy: Never          # built inside Minikube, not pulled from Docker Hub
+          ports:
+            - containerPort: 3003
+          env:
+            - name: PORT
+              value: "3003"
+            - name: INSTANCE_NAME         # the pod's own name, so we can see who answered
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: shop-secrets
+                  key: MONGO_URI_BOOKINGS
+            - name: GATEWAY_INTERNAL_URL  # used to ask Vehicles "is this your car?"
+              valueFrom:
+                configMapKeyRef:
+                  name: shop-config
+                  key: GATEWAY_INTERNAL_URL
+          readinessProbe:                 # only send traffic once it's connected and answering
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:                  # restart it if it stops answering
+            httpGet:
+              path: /health
+              port: 3003
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi

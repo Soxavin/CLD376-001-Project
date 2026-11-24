@@ -10,6 +10,7 @@ const express = require("express");
 const { authToken, authRole, fail } = require("./auth");
 const { isPublic } = require("./routes");
 const { proxies, upstreams } = require("./proxy");
+const { requestLog } = require("./requestLog");
 
 const app = express();
 // No express.json() here: the gateway forwards bodies untouched, and parsing
@@ -18,6 +19,10 @@ const app = express();
 app.get("/health", (req, res) => {
   res.json({ service: "api-gateway", instance: INSTANCE_NAME, status: "ok", upstreams });
 });
+
+// Log every request from here on. /health is answered above, so the probes
+// Kubernetes sends every few seconds don't flood the log.
+app.use(requestLog);
 
 // Every request: strip identity headers, then public check -> token -> policy.
 app.use((req, res, next) => {

@@ -217,9 +217,11 @@ Every service also has `GET /health`, which Docker uses to mark the container as
 
 ## Load balancer
 
-The Service Catalog runs as 2 copies: catalog-a on EC2-2 and catalog-b on EC2-3. Both use the same database. The gateway sends catalog requests to them in turn: A, B, A, B. The code is a few lines in `services/api-gateway/src/loadBalancer.js`.
+The Service Catalog runs as 2 pods behind one Kubernetes Service. Both use the same database. The gateway sends every catalog request to the Service, and Kubernetes spreads them across the pods. The gateway opens a fresh connection for each catalog request (keep-alive off), otherwise Node would reuse one connection and every request would land on the same pod.
 
-To see it, send `GET /api/catalog/health` 4 times. The `instance` field alternates between `catalog-a` and `catalog-b`.
+To see it, send `GET /api/catalog/health` several times. The `instance` field shows the name of the pod that answered.
+
+(In the midterm on EC2, the gateway did this itself with round-robin code. That code was removed for the final.)
 
 ## Data design
 
@@ -321,7 +323,7 @@ Set the `gateway` variable to `http://localhost:3000` for local testing, or `htt
 ```text
 .
 ├── services/
-│   ├── api-gateway/        # token check, policy.js, proxying, loadBalancer.js
+│   ├── api-gateway/        # token check, policy.js, proxying, requestLog.js
 │   ├── registration/
 │   ├── login/
 │   ├── booking/
