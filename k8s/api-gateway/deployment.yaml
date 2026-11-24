@@ -1,0 +1,66 @@
+# API Gateway: the only way into the system. Checks the JWT and the role policy,
+# then forwards to the right service. Writes a request log to the shared volume.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    app: api-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api-gateway
+  template:
+    metadata:
+      labels:
+        app: api-gateway
+    spec:
+      containers:
+        - name: api-gateway
+          image: shop-api-gateway:v2
+          imagePullPolicy: Never          # built inside Minikube, not pulled from Docker Hub
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: shop-config         # every service URL, e.g. VEHICLES_URL=http://vehicles:3004
+          env:
+            - name: PORT
+              value: "3000"
+            - name: INSTANCE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: JWT_SECRET            # same secret Login signs tokens with
+              valueFrom:
+                secretKeyRef:
+                  name: shop-secrets
+                  key: JWT_SECRET
+            - name: LOG_DIR               # gateway.log goes on the shared volume
+              value: /logs
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /logs
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+      volumes:
+        - name: shared-logs
+          persistentVolumeClaim:
+            claimName: shared-logs        # created by k8s/storage/pvc.yaml

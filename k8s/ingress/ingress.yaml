@@ -1,0 +1,27 @@
+# Fanout: one domain, two backends picked by path.
+#   carrepair.com/api/...  -> API Gateway (every API call, JWT checked there)
+#   carrepair.com/logs/... -> log viewer (read-only view of the gateway's log file)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: carrepair-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: carrepair.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway
+                port:
+                  number: 3000
+          - path: /logs
+            pathType: Prefix
+            backend:
+              service:
+                name: log-viewer
+                port:
+                  number: 80
