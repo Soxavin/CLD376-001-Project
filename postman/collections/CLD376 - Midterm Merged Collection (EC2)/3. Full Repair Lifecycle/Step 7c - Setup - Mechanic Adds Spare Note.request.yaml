@@ -1,0 +1,25 @@
+$kind: http-request
+description: SETUP for Step 7d, no screenshot needed. Mechanic 1 adds a throwaway note (the work order is still in_progress). Saves spareNoteId.
+url: "{{gateway}}/api/notes"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "workOrderId": "{{workOrderId}}",
+      "type": "work_done",
+      "text": "Spare note to be deleted",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{mechanicToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("spareNoteId", res._id);
+    language: text/javascript
+order: 17000

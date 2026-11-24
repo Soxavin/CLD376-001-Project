@@ -1,0 +1,13 @@
+$kind: http-request
+description: Expects 401 INVALID_TOKEN.
+url: http://13.220.57.201:3000/api/auth/me
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{auth_secret_17i6}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 401", () => pm.response.to.have.status(401));
+    language: text/javascript
+order: 3000

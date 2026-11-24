@@ -1,0 +1,13 @@
+$kind: http-request
+description: Re-verifies token signature and claims.
+url: "{{gateway}}/api/auth/verify"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 8000

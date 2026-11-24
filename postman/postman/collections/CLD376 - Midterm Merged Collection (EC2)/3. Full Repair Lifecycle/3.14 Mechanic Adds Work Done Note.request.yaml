@@ -1,0 +1,22 @@
+$kind: http-request
+description: Mechanic logs completed work note.
+url: http://13.220.57.201:3000/api/notes
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "workOrderId": "{{workOrderId}}",
+      "type": "work_done",
+      "text": "Replaced front brake pads with OEM pads and tested braking performance",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{mechanicToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 201", () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 7000

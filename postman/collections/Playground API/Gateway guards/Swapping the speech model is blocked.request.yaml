@@ -1,0 +1,8 @@
+$kind: http-request
+url: "{{baseUrl}}/speech/load"
+method: POST
+scripts:
+  - type: afterResponse
+    code: pm.response.to.have.status(404);
+    language: text/javascript
+order: 3000

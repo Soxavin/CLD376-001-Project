@@ -1,0 +1,26 @@
+$kind: http-request
+description: Customer registers a vehicle. Auto-saves vehicleId.
+url: http://13.220.57.201:3000/api/vehicles
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "plateNumber": "CAR-379154",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": 2021,
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("vehicleId", res._id);
+    language: text/javascript
+order: 1000

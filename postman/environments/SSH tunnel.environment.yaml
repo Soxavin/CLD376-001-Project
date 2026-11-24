@@ -1,0 +1,8 @@
+name: SSH tunnel
+values:
+  - key: baseUrl
+    value: 'http://127.0.0.1:8080'
+  - key: model
+    value: 'qwen3:1.7b'
+  - key: apiKey
+    value: ''

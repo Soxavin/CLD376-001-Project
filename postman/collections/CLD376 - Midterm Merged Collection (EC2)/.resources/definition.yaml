@@ -1,6 +1,2 @@
 $kind: collection
-description: Complete merged Postman collection for CLD376 Car Repair Shop System on AWS EC2 (configured through the {{gateway}} environment variable). Matches the report document exactly 1-to-1.
-variables:
-  - key: auth_secret_17i6
-    secret: true
-    disabled: false
+description: Complete merged Postman collection for CLD376 Car Repair Shop System on AWS EC2 ({{gateway}}). Matches the report document exactly 1-to-1.

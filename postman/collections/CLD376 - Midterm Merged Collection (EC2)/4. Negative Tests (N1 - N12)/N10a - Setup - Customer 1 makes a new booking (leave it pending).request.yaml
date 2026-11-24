@@ -1,6 +1,6 @@
 $kind: http-request
-description: "SETUP for N10, no screenshot needed. Customer 1 books a service and the booking stays pending. Saves pendingBookingId (a BOOKING id)."
-url: {{gateway}}/api/bookings
+description: SETUP for N10, no screenshot needed. Customer 1 books a service and the booking stays pending. Saves pendingBookingId (a BOOKING id).
+url: "{{gateway}}/api/bookings"
 method: POST
 body:
   type: json
@@ -22,4 +22,4 @@ scripts:
       const res = pm.response.json();
       pm.environment.set("pendingBookingId", res._id);
     language: text/javascript
-order: 9500
+order: 10000

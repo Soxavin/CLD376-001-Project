@@ -1,6 +1,6 @@
 $kind: http-request
-description: "SETUP for N11, no screenshot needed. Approves the booking that N10 used."
-url: {{gateway}}/api/bookings/{{pendingBookingId}}/status
+description: SETUP for N11, no screenshot needed. Approves the booking that N10 used.
+url: "{{gateway}}/api/bookings/{{pendingBookingId}}/status"
 method: PATCH
 body:
   type: json
@@ -15,7 +15,6 @@ auth:
     token: "{{managerToken}}"
 scripts:
   - type: afterResponse
-    code: |-
-      pm.test("Status 200", () => pm.response.to.have.status(200));
+    code: pm.test("Status 200", () => pm.response.to.have.status(200));
     language: text/javascript
-order: 10100
+order: 12000

@@ -1,0 +1,11 @@
+$kind: http-request
+description: Load balancer test call 3 (alternates instance).
+url: "{{gateway}}/api/catalog/health"
+method: GET
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 4000

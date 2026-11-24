@@ -1,0 +1,20 @@
+$kind: http-request
+description: Manager records payment confirmation.
+url: "{{gateway}}/api/invoices/{{invoiceId}}/pay"
+method: PATCH
+body:
+  type: json
+  content: |-
+    {
+      "paymentMethod": "card",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 23000

@@ -1,0 +1,8 @@
+$kind: collection
+description: Postman export of the Playground API Bruno collection. Set apiKey in the selected environment before running keyed requests.
+auth:
+  - id: a8419b5e-d042-4436-8bac-ebd41e63ecca
+    type: bearer
+    name: bearer auth
+    credentials:
+      token: "{{apiKey}}"

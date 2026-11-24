@@ -1,0 +1,25 @@
+$kind: http-request
+description: SETUP for Steps 2b and 2c, no screenshot needed. Customer 1 makes a second booking that stays pending. Saves spareBookingId.
+url: "{{gateway}}/api/bookings"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "vehicleId": "{{vehicleId}}",
+      "serviceRequested": "Spare Tire Check",
+      "preferredDate": "2026-12-05T10:00:00.000Z",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("spareBookingId", res._id);
+    language: text/javascript
+order: 7000

@@ -1,0 +1,21 @@
+$kind: http-request
+description: Customer self-registration with default customer role.
+url: http://13.220.57.201:3000/api/auth/register
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "New Customer",
+      "email": "newcustomer9154@shop.test",
+      "phone": "012345678",
+      "password": "Test1234!",
+      "activity": "midterm"
+    }
+auth:
+  type: noauth
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 201", () => pm.response.to.have.status(201));
+    language: text/javascript
+order: 1000

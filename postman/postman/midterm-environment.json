@@ -1,0 +1,116 @@
+{
+  "id": "cld376-midterm-env",
+  "name": "CLD376 - EC2 Midterm Environment",
+  "values": [
+    {
+      "key": "gateway",
+      "value": "http://13.220.57.201:3000",
+      "enabled": true
+    },
+    {
+      "key": "customerToken",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "customer2Token",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "mechanicToken",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "mechanic2Token",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "managerToken",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "customerId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "customer2Id",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "mechanicId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "mechanic2Id",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "managerId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "catalogServiceId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "vehicleId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "bookingId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "workOrderId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "noteId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "invoiceId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "pendingBookingId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "inProgressWorkOrderId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "spareVehicleId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "spareBookingId",
+      "value": "",
+      "enabled": true
+    },
+    {
+      "key": "spareNoteId",
+      "value": "",
+      "enabled": true
+    }
+  ]
+}

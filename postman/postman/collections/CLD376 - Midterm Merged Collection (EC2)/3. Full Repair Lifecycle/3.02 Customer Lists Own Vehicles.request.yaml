@@ -1,0 +1,15 @@
+$kind: http-request
+description: "Customer 1 lists vehicles and sees only their own. Expects 200."
+url: http://13.220.57.201:3000/api/vehicles
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      pm.test("Is an array", () => pm.expect(pm.response.json()).to.be.an("array"));
+    language: text/javascript
+order: 1000

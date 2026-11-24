@@ -1,0 +1,26 @@
+$kind: http-request
+description: Manager creates a mechanic account and auto-saves the created user ID.
+url: "{{gateway}}/api/users/staff"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "New Mechanic",
+      "email": "newmechanic9154@shop.test",
+      "phone": "012345679",
+      "password": "Test1234!",
+      "role": "mechanic"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("createdMechanicId", res._id);
+    language: text/javascript
+order: 9000

@@ -1,0 +1,26 @@
+$kind: http-request
+description: Manager creates a new catalog service.
+url: http://13.220.57.201:3000/api/catalog
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "Diagnostic Scan 583",
+      "description": "Comprehensive OBD-II diagnostics scan",
+      "priceCents": 4500,
+      "active": true,
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("catalogServiceId", res._id);
+    language: text/javascript
+order: 6000

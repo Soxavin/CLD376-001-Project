@@ -1,0 +1,26 @@
+$kind: http-request
+description: Manager creates another manager account and auto-saves the created user ID.
+url: "{{gateway}}/api/users/staff"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "name": "Assistant Manager",
+      "email": "assistantmanager9154@shop.test",
+      "phone": "012345680",
+      "password": "Test1234!",
+      "role": "manager"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 201", () => pm.response.to.have.status(201));
+      const res = pm.response.json();
+      pm.environment.set("createdManagerId", res._id);
+    language: text/javascript
+order: 10000

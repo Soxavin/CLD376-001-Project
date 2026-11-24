@@ -1,0 +1,26 @@
+$kind: http-request
+description: "Customer 1 changes the color of their car from Step 1 of the lifecycle. Expects 200 with the new color. Keeps the plate used in Step 1 (CAR-379154); change it here if you changed it there."
+url: http://13.220.57.201:3000/api/vehicles/{{vehicleId}}
+method: PUT
+body:
+  type: json
+  content: |-
+    {
+      "plateNumber": "CAR-379154",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": 2021,
+      "color": "Silver",
+      "activity": "midterm"
+    }
+auth:
+  type: bearer
+  credentials:
+    token: "{{customerToken}}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test("Status 200", () => pm.response.to.have.status(200));
+      pm.test("New color", () => pm.expect(pm.response.json().color).to.eql("Silver"));
+    language: text/javascript
+order: 2000

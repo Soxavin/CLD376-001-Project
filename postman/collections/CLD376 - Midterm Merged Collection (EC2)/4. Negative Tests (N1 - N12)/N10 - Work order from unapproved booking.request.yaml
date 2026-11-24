@@ -1,12 +1,12 @@
 $kind: http-request
-description: Expects 400 BOOKING_NOT_APPROVED.
-url: {{gateway}}/api/work-orders
+description: Expects 400 BOOKING_NOT_APPROVED. Uses pendingBookingId from N10a (a booking id, not a user id).
+url: "{{gateway}}/api/work-orders"
 method: POST
 body:
   type: json
   content: |-
     {
-      "bookingId": "6acdab38bab18df2dfd4072e",
+      "bookingId": "{{pendingBookingId}}",
       "mechanicId": "{{mechanicId}}",
       "activity": "midterm"
     }
@@ -16,6 +16,8 @@ auth:
     token: "{{managerToken}}"
 scripts:
   - type: afterResponse
-    code: pm.test("Status 400", () => pm.response.to.have.status(400));
+    code: |-
+      pm.test("Status 400", () => pm.response.to.have.status(400));
+      pm.test("Error code BOOKING_NOT_APPROVED", () => pm.expect(pm.response.json().error.code).to.eql("BOOKING_NOT_APPROVED"));
     language: text/javascript
-order: 10000
+order: 11000

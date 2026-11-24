@@ -1,6 +1,6 @@
 $kind: http-request
-description: "SETUP for N11, no screenshot needed. Saves inProgressWorkOrderId (a WORK ORDER id)."
-url: {{gateway}}/api/work-orders
+description: SETUP for N11, no screenshot needed. Saves inProgressWorkOrderId (a WORK ORDER id).
+url: "{{gateway}}/api/work-orders"
 method: POST
 body:
   type: json
@@ -21,4 +21,4 @@ scripts:
       const res = pm.response.json();
       pm.environment.set("inProgressWorkOrderId", res._id);
     language: text/javascript
-order: 10200
+order: 13000

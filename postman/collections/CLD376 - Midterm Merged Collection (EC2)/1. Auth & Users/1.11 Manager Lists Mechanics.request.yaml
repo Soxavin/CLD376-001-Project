@@ -1,0 +1,13 @@
+$kind: http-request
+description: Manager lists mechanic accounts for work-order assignment.
+url: "{{gateway}}/api/users?role=mechanic"
+method: GET
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 200", () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 11000

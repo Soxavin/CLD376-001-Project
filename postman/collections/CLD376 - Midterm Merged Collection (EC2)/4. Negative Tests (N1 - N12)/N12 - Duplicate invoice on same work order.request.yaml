@@ -1,6 +1,6 @@
 $kind: http-request
 description: Expects 409 DUPLICATE (enforced by Mongo unique index).
-url: {{gateway}}/api/invoices
+url: "{{gateway}}/api/invoices"
 method: POST
 body:
   type: json
@@ -24,4 +24,4 @@ scripts:
   - type: afterResponse
     code: pm.test("Status 409", () => pm.response.to.have.status(409));
     language: text/javascript
-order: 12000
+order: 16000

@@ -1,0 +1,13 @@
+$kind: http-request
+description: Manager deletes the service created in 2.6. Expects 204 with no body. Run 2.6 again to create another one.
+url: "{{gateway}}/api/catalog/{{catalogServiceId}}"
+method: DELETE
+auth:
+  type: bearer
+  credentials:
+    token: "{{managerToken}}"
+scripts:
+  - type: afterResponse
+    code: pm.test("Status 204", () => pm.response.to.have.status(204));
+    language: text/javascript
+order: 8000
