@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing
+  labels:
+    app: billing
+spec:
+  type: ClusterIP
+  selector:
+    app: billing
+  ports:
+    - name: http
+      port: 3007
+      targetPort: 3007

@@ -1,0 +1,59 @@
+# Billing service (Member 3). Writes billing_db; calls Work Orders through the gateway.
+# Needs the Secret "shop-secrets" with key MONGO_URI_BILLING.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing
+  labels:
+    app: billing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing
+  template:
+    metadata:
+      labels:
+        app: billing
+    spec:
+      containers:
+        - name: billing
+          image: shop-billing:v2
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3007
+          env:
+            - name: PORT
+              value: "3007"
+            - name: INSTANCE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGO_URI
+              valueFrom:
+                secretKeyRef:
+                  name: shop-secrets
+                  key: MONGO_URI_BILLING
+            - name: GATEWAY_INTERNAL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: shop-config
+                  key: GATEWAY_INTERNAL_URL
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3007
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3007
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 256Mi

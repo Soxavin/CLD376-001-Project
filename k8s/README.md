@@ -11,7 +11,8 @@ Everything here is plain YAML, applied with `kubectl apply -f`. The cluster is M
 | `registration/`, `work-orders/`, `repair-notes/` | Member 2 | `deployment.yaml`, `service.yaml` |
 | `config/` | Member 2 | `configmap.yaml`, `secret.example.yaml` |
 | `login/`, `billing/`, `service-catalog/` | Member 3 | `deployment.yaml`, `service.yaml` |
-| `storage/`, `log-viewer/` | Member 3 | `pvc.yaml`; log viewer Deployment, Service and nginx config |
+| `storage/` | Member 3 | `pvc.yaml`, `permissions-job.yaml` |
+| `log-viewer/` | Member 3 | `configmap.yaml`, `deployment.yaml`, `service.yaml` |
 
 Copy the shape of `k8s/vehicles/` for your own services. It's the simplest one.
 
@@ -90,7 +91,9 @@ done
 
 # Config and storage first, then the services, then the Ingress
 kubectl apply -f k8s/config/configmap.yaml -f k8s/config/secret.yaml
-kubectl apply -f k8s/storage
+kubectl apply -f k8s/storage/pvc.yaml
+kubectl apply -f k8s/storage/permissions-job.yaml
+kubectl wait --for=condition=complete job/fix-log-permissions --timeout=120s
 kubectl apply -R -f k8s/api-gateway -f k8s/registration -f k8s/login -f k8s/booking -f k8s/vehicles \
   -f k8s/work-orders -f k8s/repair-notes -f k8s/billing -f k8s/service-catalog -f k8s/log-viewer
 kubectl apply -f k8s/ingress

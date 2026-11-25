@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log-viewer-config
+data:
+  default.conf: |
+    server {
+      listen 80;
+
+      location = /logs {
+        return 301 /logs/;
+      }
+
+      location /logs/ {
+        alias /logs/;
+        autoindex on;
+        default_type text/plain;
+        add_header Cache-Control "no-store";
+      }
+
+      location = /health {
+        default_type text/plain;
+        return 200 "ok";
+      }
+    }
