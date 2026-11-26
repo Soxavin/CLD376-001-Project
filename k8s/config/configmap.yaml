@@ -1,0 +1,18 @@
+# Non-secret settings shared by every service: where each service lives inside the cluster.
+# The Service name is the DNS name, so http://vehicles:3004 reaches the "vehicles" Service.
+# The gateway loads all of these with envFrom; Booking, Work Orders and Billing use
+# GATEWAY_INTERNAL_URL for their cross-service calls.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shop-config
+data:
+  REGISTRATION_URL: "http://registration:3001"
+  LOGIN_URL: "http://login:3002"
+  BOOKING_URL: "http://booking:3003"
+  VEHICLES_URL: "http://vehicles:3004"
+  WORK_ORDERS_URL: "http://work-orders:3005"
+  NOTES_URL: "http://repair-notes:3006"
+  BILLING_URL: "http://billing:3007"
+  CATALOG_URL: "http://service-catalog:3008"
+  GATEWAY_INTERNAL_URL: "http://api-gateway:3000"
