@@ -1,0 +1,12 @@
+# ClusterIP: reachable only inside the cluster. Clients go through the gateway.
+apiVersion: v1
+kind: Service
+metadata:
+  name: repair-notes
+spec:
+  type: ClusterIP
+  selector:
+    app: repair-notes
+  ports:
+    - port: 3006
+      targetPort: 3006

@@ -1,0 +1,12 @@
+# ClusterIP: reachable only inside the cluster. Clients go through the gateway.
+apiVersion: v1
+kind: Service
+metadata:
+  name: registration
+spec:
+  type: ClusterIP
+  selector:
+    app: registration
+  ports:
+    - port: 3001
+      targetPort: 3001
