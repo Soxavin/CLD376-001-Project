@@ -4,7 +4,7 @@
   "values": [
     {
       "key": "gateway",
-      "value": "http://13.220.57.201:3000",
+      "value": "http://carrepair.com",
       "enabled": true
     },
     {

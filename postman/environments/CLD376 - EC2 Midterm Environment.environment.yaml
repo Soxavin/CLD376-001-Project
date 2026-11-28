@@ -1,7 +1,7 @@
 name: CLD376 - EC2 Midterm Environment
 values:
   - key: gateway
-    value: 'http://13.220.57.201:3000'
+    value: 'http://carrepair.com'
   - key: customerToken
     value: ''
   - key: customer2Token
