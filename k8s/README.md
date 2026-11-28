@@ -79,6 +79,8 @@ Only `secret.example.yaml` (placeholders) goes in git. The real `secret.yaml` is
 
 ## Running it
 
+The commands below are for macOS / Linux. The demo ran on Windows; the PowerShell version is in the main [README](../README.md#deploy-on-kubernetes).
+
 ```bash
 minikube start
 minikube addons enable ingress

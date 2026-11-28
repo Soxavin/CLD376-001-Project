@@ -4,9 +4,11 @@ The backend for a car repair shop. Customers register their cars, book repairs, 
 
 - **Backend only:** you use it through an API, for example with Postman. There is no website or app.
 - **9 microservices** written in Node.js (Express 5, Mongoose 8), each in its own Docker container.
-- **3 AWS EC2 instances**, with one API Gateway as the only public entry point.
-- **MongoDB Atlas**, with a separate database for each service.
+- **Kubernetes on Minikube**, defined in YAML only. One Ingress on `carrepair.com` is the way in, and the API Gateway is the only way to reach the services.
+- **MongoDB Atlas**, a cloud database, with a separate database for each service.
 - **JWT login** with 3 roles: customer, mechanic and manager.
+
+This repo holds both CLD 376 submissions. The **final project** (Kubernetes) is what the repo runs today. The **midterm** (Docker on 3 AWS EC2 instances) is kept as the git tag `midterm`; see [Project history](#project-history).
 
 ## Contents
 
@@ -18,61 +20,37 @@ The backend for a car repair shop. Customers register their cars, book repairs, 
 6. [Security](#security)
 7. [Load balancer](#load-balancer)
 8. [Data design](#data-design)
-9. [Run it locally](#run-it-locally)
-10. [Deploy to EC2](#deploy-to-ec2)
-11. [Testing with Postman](#testing-with-postman)
-12. [Project structure](#project-structure)
-13. [Conventions](#conventions)
-14. [Known limitations](#known-limitations)
-15. [Team](#team)
-16. [Next: Kubernetes](#next-kubernetes)
-17. [AI usage](#ai-usage)
+9. [Deploy on Kubernetes](#deploy-on-kubernetes)
+10. [Fanout and shared volume](#fanout-and-shared-volume)
+11. [Run it with Docker Compose](#run-it-with-docker-compose)
+12. [Testing with Postman](#testing-with-postman)
+13. [Project structure](#project-structure)
+14. [Conventions](#conventions)
+15. [Known limitations](#known-limitations)
+16. [Team](#team)
+17. [Project history](#project-history)
+18. [AI usage](#ai-usage)
 
 ## Architecture
 
-Every request enters through the API Gateway on EC2-1, port 3000. The gateway checks the login token and then forwards the request to the right service, using the instances' private IPs. Each service talks only to its own database.
+![Architecture of the system on Minikube](docs/architecture.png)
 
-```mermaid
-flowchart LR
-  P["Postman"] -->|"HTTP :3000"| GW
+Postman calls `http://carrepair.com`. The Ingress sends `/api` to the API Gateway and `/logs` to a read-only log viewer. The gateway checks the login token and the role, then forwards the request to the right service by its Kubernetes name. Each service talks only to its own database on MongoDB Atlas.
 
-  subgraph EC21["EC2-1"]
-    GW["API Gateway :3000"]
-    REG["Registration :3001"]
-    LOG["Login :3002"]
-  end
-
-  subgraph EC22["EC2-2"]
-    BK["Booking :3003"]
-    VH["Vehicles :3004"]
-    WO["Work Orders :3005"]
-    CA["Service Catalog A :3008"]
-  end
-
-  subgraph EC23["EC2-3"]
-    RN["Repair Notes :3006"]
-    BL["Billing :3007"]
-    CB["Service Catalog B :3008"]
-  end
-
-  GW --> REG & LOG & BK & VH & WO & RN & BL
-  GW -->|"round-robin"| CA & CB
-  REG & LOG & BK & VH & WO & RN & BL & CA & CB --> DB[("MongoDB Atlas")]
-```
-
-| Service | Owner | EC2 | Port | Gateway path | Database |
+| Service | Owner | Port | Address inside the cluster | Path through the gateway | Database |
 | --- | --- | --- | --- | --- | --- |
-| api-gateway | Member 1 | EC2-1 | 3000 | entry point for everything | none |
-| registration | Member 2 | EC2-1 | 3001 | `/api/auth/register`, `/api/users` | `auth_db` |
-| login | Member 3 | EC2-1 | 3002 | `/api/auth/login`, `/api/auth/me`, `/api/auth/verify` | `auth_db` (read only) |
-| booking | Member 1 | EC2-2 | 3003 | `/api/bookings` | `bookings_db` |
-| vehicles | Member 1 | EC2-2 | 3004 | `/api/vehicles` | `vehicles_db` |
-| work-orders | Member 2 | EC2-2 | 3005 | `/api/work-orders` | `workorders_db` |
-| repair-notes | Member 2 | EC2-3 | 3006 | `/api/notes` | `notes_db` |
-| billing | Member 3 | EC2-3 | 3007 | `/api/invoices` | `billing_db` |
-| service-catalog (2 copies) | Member 3 | EC2-2 and EC2-3 | 3008 | `/api/catalog` | `catalog_db` |
+| api-gateway | Member 1 | 3000 | `http://api-gateway:3000` | entry point for everything | none |
+| registration | Member 2 | 3001 | `http://registration:3001` | `/api/auth/register`, `/api/users` | `auth_db` |
+| login | Member 3 | 3002 | `http://login:3002` | `/api/auth/login`, `/api/auth/me`, `/api/auth/verify` | `auth_db` (read only) |
+| booking | Member 1 | 3003 | `http://booking:3003` | `/api/bookings` | `bookings_db` |
+| vehicles | Member 1 | 3004 | `http://vehicles:3004` | `/api/vehicles` | `vehicles_db` |
+| work-orders | Member 2 | 3005 | `http://work-orders:3005` | `/api/work-orders` | `workorders_db` |
+| repair-notes | Member 2 | 3006 | `http://repair-notes:3006` | `/api/notes` | `notes_db` |
+| billing | Member 3 | 3007 | `http://billing:3007` | `/api/invoices` | `billing_db` |
+| service-catalog (2 pods) | Member 3 | 3008 | `http://service-catalog:3008` | `/api/catalog` | `catalog_db` |
+| log-viewer (nginx) | Member 3 | 80 | `http://log-viewer:80` | `carrepair.com/logs/` (not through the gateway) | reads the shared volume |
 
-Only port 3000 on EC2-1 is open to the internet. The other services can be reached only from inside the VPC, so nobody can go around the gateway.
+Every Kubernetes Service is `ClusterIP`, so it can only be reached from inside the cluster. The only way in from outside is the Ingress, which points at the gateway and the log viewer, so nobody can go around the gateway.
 
 ## Roles and permissions
 
@@ -101,7 +79,7 @@ The gateway can't do the second check, because it doesn't know who owns which re
 
 ## How one request works
 
-1. Postman sends the request to the gateway with `Authorization: Bearer <token>`.
+1. Postman sends the request to `http://carrepair.com/api/...` with `Authorization: Bearer <token>`. The Ingress passes everything under `/api` to the gateway.
 2. The gateway checks that the token is real and not expired. If not, it returns **401**.
 3. The gateway looks up the method and path in `policy.js`. If the role isn't allowed, or the route isn't listed at all, it returns **403**.
 4. The gateway removes any `x-user-id` and `x-user-role` headers the client sent, sets them again from the token, and forwards the request.
@@ -124,7 +102,7 @@ One repair uses all 9 services. This is also the demo order.
 
 ## API endpoints
 
-All paths go through the gateway (`http://<host>:3000`). **Public** means no token is needed. "Own" and "assigned" are checked by the service.
+All paths go through the gateway (`http://carrepair.com` on Kubernetes, `http://localhost:3000` with Docker Compose). **Public** means no token is needed. "Own" and "assigned" are checked by the service.
 
 ### Registration (port 3001)
 
@@ -203,7 +181,7 @@ All paths go through the gateway (`http://<host>:3000`). **Public** means no tok
 | DELETE | `/api/catalog/:id` | Manager | |
 | GET | `/api/catalog/health` | Public | Shows which copy answered (for the load balancer demo) |
 
-Every service also has `GET /health`, which Docker uses to mark the container as healthy.
+Every service also has `GET /health`, which Docker (health check) and Kubernetes (readiness and liveness probes) use to tell whether the container is healthy.
 
 ## Security
 
@@ -213,7 +191,8 @@ Every service also has `GET /health`, which Docker uses to mark the container as
 - **Ownership checks:** services take the owner from the headers, never from the request body. A customer can't sign up as a manager, put someone else's id on a car, or set an invoice total.
 - **Passwords:** hashed with bcrypt (cost 10) and never returned in any response.
 - **One login error:** a wrong email and a wrong password both give "Invalid email or password", so nobody can find out which emails are registered.
-- **Secrets stay out of git:** `MONGO_URI` and `JWT_SECRET` live only in gitignored `.env` files. Only `.env.example` files with placeholders are committed.
+- **No direct access:** every Kubernetes Service is `ClusterIP`; the Ingress only points at the gateway and the log viewer.
+- **Secrets stay out of git:** on Kubernetes, `JWT_SECRET` and the Atlas URIs live in the Secret `shop-secrets`. Only `k8s/config/secret.example.yaml` with placeholders is committed; the real `secret.yaml` and all `.env` files are gitignored.
 
 ## Load balancer
 
@@ -250,9 +229,72 @@ To see it, send `GET /api/catalog/health` several times. The `instance` field sh
 
 All six domain services have full create, read, update and delete. User accounts belong to the two login services: Registration creates them and Login only reads them. User update and delete were left out on purpose. Deleting an account would leave its bookings, work orders and invoices pointing at a user that no longer exists. A real system would deactivate accounts instead.
 
-## Run it locally
+## Deploy on Kubernetes
 
-You need Docker, Node.js 24 and the team's Atlas details.
+The cluster is Minikube on one laptop, with the Docker driver. Every object is a YAML file in `k8s/`, applied with `kubectl apply -f`. [k8s/README.md](k8s/README.md) lists the names all the YAML files share.
+
+You need Docker Desktop, Minikube, kubectl and the team's Atlas details. The test data from the seed scripts (see [Run it with Docker Compose](#run-it-with-docker-compose), step 3) lives in Atlas, so it only has to be added once.
+
+**Windows (PowerShell)**, the setup used for the demo:
+
+```powershell
+# 1. Cluster
+minikube start --driver=docker
+minikube addons enable ingress
+
+# 2. Build the images inside Minikube's Docker (the YAML uses imagePullPolicy: Never)
+& minikube -p minikube docker-env --shell powershell | Invoke-Expression
+$services = "api-gateway","registration","login","booking","vehicles","work-orders","repair-notes","billing","service-catalog"
+foreach ($s in $services) { docker build -t "shop-${s}:v2" "services/$s" }
+
+# 3. Configuration and storage
+Copy-Item k8s/config/secret.example.yaml k8s/config/secret.yaml   # then fill in the real values
+kubectl apply -f k8s/config/configmap.yaml -f k8s/config/secret.yaml
+kubectl apply -f k8s/storage/pvc.yaml
+kubectl apply -f k8s/storage/permissions-job.yaml
+kubectl wait --for=condition=complete job/fix-log-permissions --timeout=120s
+
+# 4. Services, log viewer, Ingress
+foreach ($d in $services + "log-viewer") { kubectl apply -f "k8s/$d" }
+kubectl apply -f k8s/ingress
+kubectl get pods            # wait until everything is Running and 1/1 READY
+
+# 5. Domain and tunnel
+# As administrator, add this line to C:\Windows\System32\drivers\etc\hosts:
+#   127.0.0.1 carrepair.com
+minikube tunnel             # leave running in its own terminal
+```
+
+**macOS / Linux (bash):** the same steps; only three commands differ.
+
+```bash
+eval $(minikube docker-env)
+for s in api-gateway registration login booking vehicles work-orders repair-notes billing service-catalog; do
+  docker build -t shop-$s:v2 services/$s
+done
+echo "127.0.0.1 carrepair.com" | sudo tee -a /etc/hosts
+```
+
+Check it works: `http://carrepair.com/api/catalog` should return the price list, and `http://carrepair.com/logs/` should list `gateway.log`.
+
+To look around: `minikube dashboard`, `kubectl get pods,svc,ingress,pvc`.
+
+## Fanout and shared volume
+
+**Fanout.** The Ingress `carrepair-ingress` serves one domain and sends each path to a different backend:
+
+| Path | Backend | Purpose |
+| --- | --- | --- |
+| `carrepair.com/api/...` | `api-gateway:3000` | Every API call, checked by the gateway |
+| `carrepair.com/logs/...` | `log-viewer:80` | Read-only view of the gateway's request log |
+
+The services themselves are not fanned out to directly, because that would skip the gateway's token and role check.
+
+**Shared volume.** The PersistentVolumeClaim `shared-logs` is mounted at `/logs` in two containers. The gateway appends one line per request to `/logs/gateway.log`; the log viewer (nginx) mounts the same claim read-only and serves the file. A one-off Job, `fix-log-permissions`, makes the folder writable first, because the gateway runs as a non-root user. The file survives the gateway pod being deleted and recreated, because it lives on the volume.
+
+## Run it with Docker Compose
+
+Useful for development: all 9 services on one laptop without Kubernetes. You need Docker, Node.js 24 and the team's Atlas details.
 
 1. **Settings:** copy `.env.example` to `.env` in the repo root and fill in `ATLAS_USER`, `ATLAS_PASSWORD`, `ATLAS_HOST` and `JWT_SECRET`. A new secret can be made with:
 
@@ -301,22 +343,18 @@ Without the gateway, pretend to be it by sending the two identity headers yourse
 curl localhost:3004/api/vehicles -H "x-user-id: 66f1c2a9e4b0a1b2c3d4e5f6" -H "x-user-role: customer"
 ```
 
-## Deploy to EC2
-
-The 3 instances run in one AWS Learner Lab, in the same VPC. Each instance has its own compose file in `deploy/ec2-1`, `deploy/ec2-2` and `deploy/ec2-3`. On each one, the steps are: clone the repo, create the `env/` files from `env.example/`, then run `docker compose up -d --build`.
-
-The full steps are in [deploy/README.md](deploy/README.md).
-
 ## Testing with Postman
 
-The `postman/` folder has 2 collections. In Postman, click **Import** and pick a file.
+In Postman, click **Import** and pick `postman/midterm-collection.json` and `postman/midterm-environment.json`. Despite the name, the collection covers the whole system: logins, the catalog and load balancer, the full repair flow, and the negative tests N1 to N12.
 
-| Collection | Covers |
+Set the environment's `gateway` variable to:
+
+| Running on | `gateway` |
 | --- | --- |
-| `member-1.postman_collection.json` | Logins, gateway checks, vehicles, bookings, cleanup |
-| `member-2.postman_collection.json` | Registration, work orders, repair notes, negative tests |
+| Kubernetes (Minikube) | `http://carrepair.com` |
+| Docker Compose | `http://localhost:3000` |
 
-Set the `gateway` variable to `http://localhost:3000` for local testing, or `http://<EC2-1 public IP>:3000` for EC2. Run the login requests first and copy the tokens into the token variables. Each request's description says what result to expect.
+Run the login requests first; they save each role's token automatically. Each request's description says what result to expect.
 
 ## Project structure
 
@@ -341,9 +379,11 @@ Set the `gateway` variable to `http://localhost:3000` for local testing, or `htt
 │       ├── .dockerignore
 │       ├── .env.example
 │       └── package.json
-├── deploy/                 # one compose file per EC2 + setup guide
+├── k8s/                    # all Kubernetes YAML (final project), see k8s/README.md
+├── deploy/                 # midterm: one compose file per EC2 + setup guide
+├── docs/                   # architecture diagram
 ├── scripts/                # seed-users.js, seed-catalog.js
-├── postman/                # Postman collections
+├── postman/                # Postman collection and environment
 ├── docker-compose.dev.yml  # all 9 services on one laptop
 └── .env.example            # settings for docker-compose.dev.yml
 ```
@@ -387,28 +427,35 @@ These are known shortcuts, each with what the stronger version would be:
 | Tokens are signed with one shared secret (HS256) | RS256, where only Login can sign |
 | No refresh tokens or logout | Users log in again after 1 hour |
 | Services trust the gateway's identity headers | Each service checks the token again |
-| Docker images are built on the servers | Images are pushed to a registry and servers only pull them |
+| Images are built inside Minikube and used with `imagePullPolicy: Never` | Images are pushed to a registry and the cluster pulls them |
+| One Minikube node, so the 2 catalog pods and the `ReadWriteOnce` volume share one machine | A multi-node cluster with a `ReadWriteMany` volume |
+| Secrets are only base64-encoded inside Kubernetes | Encryption at rest, or an external secret manager |
 | Work Orders doesn't check that `mechanicId` is a real mechanic | Ask Registration to confirm the user is a mechanic |
-| Atlas accepts connections from any IP, with one database user for all services | Allow only the EC2 IPs, and give each service its own database user |
+| Atlas accepts connections from any IP, with one database user for all services | Allow only known IPs, and give each service its own database user |
 | No user update or delete | See [CRUD coverage](#crud-coverage) |
 
 ## Team
 
-| Member | Side of the shop | Services | Other duties |
-| --- | --- | --- | --- |
-| Member 1 (Soxavin) | Customer | API Gateway, Booking, Vehicles | Repo setup, gateway policy, load balancer |
-| Member 2 (Laimeng) | Mechanic | Registration, Work Orders, Repair Notes | Atlas, JWT secret, seed scripts, submission document |
-| Member 3 (Pissoth) | Shop owner | Login, Billing, Service Catalog | EC2 instances, compose files, deployment |
+| Member | Side of the shop | Services | Midterm duties | Final duties |
+| --- | --- | --- | --- | --- |
+| Member 1 (LOEUNG Soxavin) | Customer | API Gateway, Booking, Vehicles | Repo setup, gateway policy, load balancer | Gateway changes (request log), Ingress and fanout, `k8s/` structure, architecture diagram, report |
+| Member 2 (EUNG Laimeng) | Mechanic | Registration, Work Orders, Repair Notes | Atlas, JWT secret, seed scripts, submission document | ConfigMap and Secret, full Minikube deployment, live demo |
+| Member 3 (MAO Kolbotr Pissoth) | Shop owner | Login, Billing, Service Catalog | EC2 instances, compose files, deployment | Shared volume and log viewer, load balancing, Postman collection |
 
-## Next: Kubernetes
+## Project history
 
-The final project reuses the same images:
+| | Midterm | Final |
+| --- | --- | --- |
+| Runs on | 3 AWS EC2 instances | Minikube (one laptop) |
+| Defined with | One Docker Compose file per instance | Kubernetes YAML in `k8s/` |
+| Services find each other by | EC2 private IPs in `.env` files | Kubernetes Service names in a ConfigMap |
+| Way in | Port 3000 on EC2-1 | Ingress on `carrepair.com` (fanout: `/api`, `/logs`) |
+| Load balancing | Round-robin code in the gateway | A Kubernetes Service in front of 2 pods |
+| Volume | None | `shared-logs`, used by the gateway and the log viewer |
 
-- Each service becomes a Kubernetes Deployment.
-- The `.env` files become ConfigMaps and Secrets.
-- The gateway's round-robin is replaced by a Service with 2 replicas.
+The service code is the same in both. The only change for the final was in the gateway: it writes a request log and no longer does its own round-robin.
 
-No service code should need to change.
+To see the repo exactly as it was submitted: `git checkout midterm` or `git checkout final`. The midterm EC2 steps are in [deploy/README.md](deploy/README.md).
 
 ## AI usage
 
